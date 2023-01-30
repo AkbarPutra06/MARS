@@ -1,7 +1,7 @@
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
-from audioop import add
+
 
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
@@ -22,7 +22,7 @@ def home():
     return render_template('index.html')
 
 @app.route("/mars", methods=["POST"])
-def mars_post():
+def web_mars_post():
     name_receive = request.form['name_give']
     address_receive = request.form['address_give']
     size_receive = request.form['size_give']
@@ -37,7 +37,8 @@ def mars_post():
     return jsonify({'msg': 'complete!'})
 
 @app.route("/mars", methods=["GET"])
-def mars_get():
+def web_mars_get():
+    orders_list = list(db.orders.find({}, {'_id': False}))
     return jsonify({'msg': 'GET request!'})
 
 if __name__ == '__main__':
